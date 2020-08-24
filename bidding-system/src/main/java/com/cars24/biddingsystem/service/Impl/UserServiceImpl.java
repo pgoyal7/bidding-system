@@ -1,7 +1,7 @@
 package com.cars24.biddingsystem.service.Impl;
 
 import com.cars24.biddingsystem.exception.BidException;
-import com.cars24.biddingsystem.service.RunningAuctionService;
+import com.cars24.biddingsystem.service.AuctionNotificationService;
 import com.cars24.biddingsystem.dto.User;
 import com.cars24.biddingsystem.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Autowired
-    private RunningAuctionService runningAuctionService;
+    private AuctionNotificationService auctionNotificationService;
 
     @PostConstruct
     @Override
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     private void addUserToRealtimeBidBroadcast() {
         for(User user : USER_MAP.values()) {
-            runningAuctionService.addUser(user);
+            auctionNotificationService.addUser(user);
         }
     }
 

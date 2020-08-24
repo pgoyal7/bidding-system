@@ -7,7 +7,12 @@ import java.util.List;
 
 @Setter
 @Getter
-public class SearchRunningAuctionResponse {
+public class RunningAuctionResponse {
     private List<AuctionInfo> auctionInfoList;
     private Long totalAvailableAuctions;
+
+    public RunningAuctionResponse(final List<AuctionInfo> auctionInfoList, final long totalAvailableAuctions) {
+        this.totalAvailableAuctions = totalAvailableAuctions;
+        this.auctionInfoList = auctionInfoList;
+    }
 }

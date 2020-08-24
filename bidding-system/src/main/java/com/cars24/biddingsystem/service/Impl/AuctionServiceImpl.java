@@ -8,7 +8,7 @@ import com.cars24.biddingsystem.enums.AuctionState;
 import com.cars24.biddingsystem.repository.AuctionDetailHistoryRepository;
 import com.cars24.biddingsystem.repository.AuctionDetailRepository;
 import com.cars24.biddingsystem.service.AuctionService;
-import com.cars24.biddingsystem.service.RunningAuctionService;
+import com.cars24.biddingsystem.service.AuctionNotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,7 +32,7 @@ public class AuctionServiceImpl implements AuctionService {
     @Autowired
     private AuctionDetailRepository auctionDetailRepository;
     @Autowired
-    private RunningAuctionService runningAuctionService;
+    private AuctionNotificationService auctionNotificationService;
     @Autowired
     private AuctionCacheService cacheService;
     @Autowired
@@ -88,7 +88,7 @@ public class AuctionServiceImpl implements AuctionService {
     private void notifyAllLoggedInUsers(AuctionDetail auctionDetail) {
         //notify to all the users
         CompletableFuture.runAsync(() ->
-                runningAuctionService.setAuctionDetails(auctionDetail));
+                auctionNotificationService.setAuctionDetails(auctionDetail));
     }
 
     /*
