@@ -43,7 +43,7 @@ public class AuctionServiceImpl implements AuctionService {
     * */
     @Override
     @Transactional
-    @Lock(LockModeType.READ) //TODO
+    @Lock(LockModeType.PESSIMISTIC_FORCE_INCREMENT)
     public boolean placeBid(final String itemCode, final PlaceBidRequest bidRequest, final String userToken) {
         log.info("Trying to place the bid for user : {} against item code : {}", userToken, itemCode);
         boolean isBidPlaced = false;
