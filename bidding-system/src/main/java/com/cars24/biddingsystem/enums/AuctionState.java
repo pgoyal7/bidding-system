@@ -1,2 +1,5 @@
-package com.cars24.biddingsystem;public class AuctionState {
+package com.cars24.biddingsystem.enums;
+
+public enum AuctionState {
+    RUNNING, OVER;
 }

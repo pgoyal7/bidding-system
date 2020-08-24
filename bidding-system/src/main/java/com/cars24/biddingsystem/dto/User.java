@@ -1,6 +1,6 @@
-package com.cars24.biddingsystem.broadcast;
+package com.cars24.biddingsystem.dto;
 
-import com.cars24.biddingsystem.entity.AuctionDetails;
+import com.cars24.biddingsystem.entity.AuctionDetail;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +15,9 @@ public class User {
         this.userToken = userToken;
     }
 
-    public void update(Object details) {
-        AuctionDetails auctionDetails = (AuctionDetails)details;
-        log.info("Item code : {} is now ");
+    public void notifyAboutRunningAuctions(Object details) {
+        AuctionDetail auctionDetail = (AuctionDetail)details;
+        log.info("Current bid rate has been updated to : {} for item code : {}",
+                auctionDetail.getCurrentBidRate().doubleValue(), auctionDetail.getItemCode());
     }
 }

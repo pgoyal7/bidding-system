@@ -1,2 +1,5 @@
-package com.cars24.biddingsystem.util;public class Constants {
+package com.cars24.biddingsystem.util;
+
+public interface Constants {
+    String REQUEST_ID = "requestId";
 }

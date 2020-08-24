@@ -4,7 +4,6 @@ import com.cars24.biddingsystem.enums.AuctionState;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.checkerframework.common.aliasing.qual.Unique;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -17,25 +16,27 @@ import java.sql.Date;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "auction_details")
-public class AuctionDetails implements Serializable {
+@Table(name = "auction_details",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"item_code"})})
+public class AuctionDetail implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Unique
     @Column(name = "item_code")
-    private String ItemCode;
+    private String itemCode;
     @Column(name = "step_rate")
     private BigDecimal stepRate;
     @Column(name = "minimum_base_rate")
     private BigDecimal minBaseRate;
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "state")
     private AuctionState state;
     @Column(name = "current_bid_rate")
     private BigDecimal currentBidRate;
+    @Column(name = "created_at")
     @CreationTimestamp
     private Date createdAt;
+    @Column(name = "updated_at")
     @UpdateTimestamp
     private Date updatedAt;
     @Column(name = "created_by")
@@ -43,5 +44,16 @@ public class AuctionDetails implements Serializable {
     @Column(name = "updated_by")
     private String updatedBy;
     @Version
-    private String version;
+    private Integer version;
+
+    public AuctionDetail(String itemCode, BigDecimal minBaseRate, BigDecimal currentBidRate,
+                         BigDecimal stepRate, AuctionState state) {
+        this.itemCode = itemCode;
+        this.minBaseRate = minBaseRate;
+        this.currentBidRate = currentBidRate;
+        this.state = state;
+        this.stepRate = stepRate;
+        this.createdBy = "SYSTEM";
+        this.updatedBy = "SYSTEM";
+    }
 }

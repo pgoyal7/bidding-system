@@ -2,6 +2,7 @@ package com.cars24.biddingsystem.cache;
 
 import com.cars24.biddingsystem.entity.AuctionDetail;
 import com.cars24.biddingsystem.enums.AuctionState;
+import com.cars24.biddingsystem.exception.BidException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,7 @@ public class AuctionCacheService {
         } catch(Exception e) {
             log.error("Failed to add/update new value for item code : {} with message : {}",
                     key, e.getMessage(), e);
+            throw new BidException("Error while adding/updating value for item code "+value.getItemCode());
         }
         return isAddedToCache;
     }
