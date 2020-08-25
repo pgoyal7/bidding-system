@@ -41,7 +41,8 @@ spring:
         dialect: org.hibernate.dialect.H2Dialect
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:/Users/shilpigoyal/h2-data/sample
+    #url: jdbc:h2:file:/Users/shilpigoyal/h2-data/biddingsystem -- file based
+    url: jdbc:h2:mem:biddingsystem
     username: sa
     password: password
   h2:
