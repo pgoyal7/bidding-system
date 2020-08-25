@@ -1,14 +1,17 @@
 package com.cars24.biddingsystem.service.Impl;
 
 import com.cars24.biddingsystem.cache.AuctionCacheService;
-import com.cars24.biddingsystem.dto.*;
+import com.cars24.biddingsystem.dto.AuctionInfo;
+import com.cars24.biddingsystem.dto.PaginationInfo;
+import com.cars24.biddingsystem.dto.RunningAuctionResponse;
+import com.cars24.biddingsystem.dto.SortInfo;
 import com.cars24.biddingsystem.entity.AuctionDetail;
 import com.cars24.biddingsystem.entity.AuctionDetailHistory;
 import com.cars24.biddingsystem.enums.AuctionState;
 import com.cars24.biddingsystem.repository.AuctionDetailHistoryRepository;
 import com.cars24.biddingsystem.repository.AuctionDetailRepository;
-import com.cars24.biddingsystem.service.AuctionService;
 import com.cars24.biddingsystem.service.AuctionNotificationService;
+import com.cars24.biddingsystem.service.AuctionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,7 +47,7 @@ public class AuctionServiceImpl implements AuctionService {
     @Override
     @Transactional
     @Lock(LockModeType.PESSIMISTIC_FORCE_INCREMENT)
-    public boolean placeBid(final String itemCode, final PlaceBidRequest bidRequest, final String userToken) {
+    public boolean placeBid(final String itemCode, final BigDecimal bidAmount, final String userToken) {
         log.info("Trying to place the bid for user : {} against item code : {}", userToken, itemCode);
         boolean isBidPlaced = false;
         log.info("Populating the auction detail by item code : {} for user : {}", itemCode, userToken);
@@ -53,7 +56,6 @@ public class AuctionServiceImpl implements AuctionService {
             log.info("Auction detail for item code has been populated from DB for item code : {} and user : {}",
                     itemCode, userToken);
             AuctionDetail auctionDetail = mayBeAuctionDetails.get();
-            BigDecimal bidAmount = new BigDecimal(bidRequest.getBidAmount());
             if(getMinimumEligibleBid(auctionDetail).compareTo(bidAmount) < 0) {
                 auctionDetail.setCurrentBidRate(bidAmount);
                 //update the bid corresponds to item code
