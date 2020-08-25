@@ -32,9 +32,19 @@ public class AuctionCacheService {
         return isAddedToCache;
     }
 
-    public boolean validateItemCodeMinimumBaseRateAndState(final String key, final BigDecimal bidAmount) {
+    public boolean isItemCodeAvailable(final String key) {
+        boolean isItemCodeAvailable = false;
+        log.info("Validating existence of item code : {}", key);
+        if(ITEM_WISE_AUCTION_DETAILS.containsKey(key)) {
+            isItemCodeAvailable = true;
+            log.info("Item code : {} validated successfully", key);
+        }
+        return isItemCodeAvailable;
+    }
+
+    public boolean validateCurrentBidRateRateAndState(final String key, final BigDecimal bidAmount) {
         boolean isValid = false;
-        log.info("Validating item code, minimum base rate and state for item code : {}", key);
+        log.info("Validating current bid rate and state for item code : {}", key);
         if(ITEM_WISE_AUCTION_DETAILS.containsKey(key)) {
             AuctionDetail auctionDetail = ITEM_WISE_AUCTION_DETAILS.get(key);
             if(isAuctionRunning(auctionDetail) && validateMinimumBaseRate(auctionDetail, bidAmount)) {
